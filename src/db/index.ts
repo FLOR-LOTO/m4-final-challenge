@@ -1,4 +1,4 @@
-import { Drink, Ingredient } from "../../types";
+import { Drink } from "../../types";
 const URL_API = "https://www.thecocktaildb.com/api/json/v1/1/";
 
 const fetchAllCocktails = async (): Promise<Drink[]> => {
@@ -17,65 +17,56 @@ const fetchAllCocktails = async (): Promise<Drink[]> => {
   return allCocktails;
 };
 
-const fetchAllIngredients = async (): Promise<Ingredient[]> => {
-  // Obtener la lista de nombres de todos los ingredientes
-  const response = await fetch(`${URL_API}list.php?i=list`);
-  const data = await response.json();
-
-  //creo un array con todos los ingredientes
-  const ingredientNames = data.drinks.map(
-    (ingredient: { strIngredient1: string }) => ingredient.strIngredient1
-  );
-
-  // Hacer solicitudes adicionales para obtener la descripción de cada ingrediente
-  const requests = ingredientNames.map((ingredient: Ingredient) =>
-    fetch(`${URL_API}search.php?i=${ingredient}`).then((response) =>
-      response.json()
-    )
-  );
-
-  const results = await Promise.all(requests);
-  const allIngredients = results.flatMap((result) => result.ingredients || []);
-  console.log(allIngredients);
-
-  return allIngredients;
-};
-
-export const apiDataDrinks = async () => {
+const apiDataDrinks = async () => {
   const response = await fetchAllCocktails();
 
+  // Número máximo de ingredientes
+  const MAX_INGREDIENTS = 15;
+
   // Mapear los cócteles a un nuevo formato
-  const data = response.map((drink: Drink) => {
+  const data = response.map((drink: any) => {
     const {
       idDrink: id,
       strDrink: name,
       strCategory: category,
       strInstructions: instructions,
       strDrinkThumb: image,
+      // Extraer ingredientes y medidas dinámicamente
+      ...rest
     } = drink;
 
-    return { id, name, category, instructions, image };
+    // Extraer los ingredientes y medidas
+    const ingredients: string[] = [];
+    const measures: string[] = [];
+
+    for (let i = 1; i <= MAX_INGREDIENTS; i++) {
+      const ingredient: string = drink[`strIngredient${i}`];
+      const measure: string = drink[`strMeasure${i}`];
+
+      if (ingredient && ingredient.trim() !== "") {
+        ingredients.push(ingredient);
+        measures.push(measure || ""); // Si la medida es null, usar una cadena vacía
+      }
+    }
+
+    // Combinar ingredientes y medidas
+    const ingredientsAndMeasures: string[] = [];
+
+    for (let i = 0; i < ingredients.length; i++) {
+      ingredientsAndMeasures.push(`${measures[i]} ${ingredients[i]}`);
+    }
+
+    return {
+      id,
+      name,
+      category,
+      instructions,
+      image,
+      ingredientsAndMeasures,
+    };
   });
 
   return data;
 };
 
-export const apiDataIngredients = async () => {
-  const response = await fetchAllIngredients();
-
-  // Mapear los ingredientes a un nuevo formato
-  const data = response.map((ingredient: Ingredient) => {
-    const {
-      idIngredient: id,
-      strType: name,
-      strDescription: description,
-    } = ingredient;
-
-    return { id, name, description };
-  });
-
-  return data;
-};
-
-//apiDataIngredients().then((data) => console.log(data));
-fetchAllIngredients().then((data) => console.log(data));
+export { URL_API, apiDataDrinks };

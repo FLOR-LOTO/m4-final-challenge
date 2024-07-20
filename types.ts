@@ -9,8 +9,8 @@ interface Drink {
 interface Ingredient {
   strIngredient1: string;
   idIngredient: string;
-  strType: string;
-  strDescription: string;
+  strIngredient: string;
+  strDescription: string | null;
 }
 
-export { Drink, Ingredient };
+export { Drink };
