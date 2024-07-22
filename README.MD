@@ -8,7 +8,7 @@ Esta aplicación permite buscar tragos de todo el mundo. Puedes obtener informac
 
 1. Clona el repositorio:
    ```bash
-   git clone https://github.com/tu-usuario/tu-repositorio.git
+   git clone https://github.com/FLOR-LOTO/m4-final-challenge.git
    ```
 
 # Uso
