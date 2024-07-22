@@ -1,24 +1,17 @@
-import { apiDataDrinks } from "../db";
+const fs = require("fs");
 
-const allDrinks = apiDataDrinks();
+const path = "./src/db/newCocktails.json";
 
-class Drink {
-  constructor() {}
-
-  async getAllDrinks() {
-    const drinks = await allDrinks;
-    return drinks;
+const createFile = (data: string[]) => {
+  if (!fs.existsSync(path)) {
+    fs.writeFileSync(path, JSON.stringify([]));
   }
+  fs.writeFileSync(path, JSON.stringify(data)); //exista o no la sobrescribe con la data
+};
 
-  getDrinkByName(name: string) {
-    console.log(name);
-  }
+const readFile = () => {
+  const readFileJs = fs.readFileSync(path, { encoding: "Utf-8" }); //Esta función lee el contenido del archivo de la base de datos
+  return JSON.parse(readFileJs); // Lo convierte y lo devuelve
+};
 
-  getDrinkById(id: string) {}
-
-  getDrinkByIngredient(ingredient: string) {}
-}
-
-const drinks = new Drink().getAllDrinks();
-
-console.log(drinks);
+export { createFile, readFile };

@@ -1,0 +1,26 @@
+[
+  {
+    "id": "63b6426d-96b0-4d5a-a2df-6564961211b0",
+    "name": "Cosmopolitan",
+    "category": "Coctel",
+    "instructions": "Agita todos los ingredientes con hielo en una coctelera. Cuela en una copa de cóctel previamente enfriada. Decora con una cáscara de lima si lo deseas.",
+    "ingredientsAndMeasures": [
+      "1 1/2 oz Vodka",
+      "1 oz Triple sec",
+      "1/2 oz Jugo de arándano rojo",
+      "1/2 oz Jugo de lima fresco"
+    ]
+  },
+  {
+    "id": "a8549be0-5b8b-49a4-ae9d-caff068be4e6",
+    "name": "Alabama Slammer",
+    "category": "Coctel",
+    "instructions": "Llena un vaso alto con hielo. Vierte el amaretto, el whisky bourbon y el licor de durazno sobre el hielo. Luego, llena con jugo de naranja y revuelve suavemente.",
+    "ingredientsAndMeasures": [
+      "1 oz Amaretto",
+      "1 oz Whisky bourbon",
+      "1 oz Licor de durazno",
+      "Jugo de naranja"
+    ]
+  }
+]

@@ -6,11 +6,12 @@ interface Drink {
   strDrinkThumb: string;
 }
 
-interface Ingredient {
-  strIngredient1: string;
-  idIngredient: string;
-  strIngredient: string;
-  strDescription: string | null;
+interface CreateDrink {
+  id: string;
+  name: string;
+  category: string;
+  instructions: string;
+  ingredientsAndMeasures: string[];
 }
 
-export { Drink };
+export { Drink, CreateDrink };
