@@ -1,9 +1,9 @@
 import { apiDataDrinks } from "../db";
 import { readFile, createFile } from "../models";
 import { CreateDrink } from "../../types";
+import { validationsCreateDrink } from "../utils/validations";
 const uuid = require("uuid");
 
-// guardo la funcion readFile() en una variable para reutilizarla en las demas funciones
 const allDrinksJSON = readFile();
 
 const getAllDrinks = async () => {
@@ -36,25 +36,16 @@ const getDrinkByIngredient = async (searchIngredient: string) => {
 };
 
 const createDrink = (drink: CreateDrink) => {
+  const isValidate = validationsCreateDrink(drink);
+
+  if (typeof isValidate === "string") {
+    return isValidate;
+  }
   drink.id = uuid.v4();
   allDrinksJSON.push(drink);
   createFile(allDrinksJSON);
   return "Cocktail creado exitosamente.";
 };
-
-// console.log(
-//   createDrink({
-//     id: "1",
-//     name: "jugo",
-//     category: "trago",
-//     instructions: "servir",
-//     ingredientsAndMeasures: ["1 medida de jugo"],
-//   })
-// );
-
-//console.log(getAllDrinks().then((res) => console.log(res)));
-
-//console.log(getDrinkByIngredient("gin").then((res) => console.log(res)));
 
 export {
   getAllDrinks,
