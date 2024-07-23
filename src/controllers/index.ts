@@ -6,6 +6,11 @@ const uuid = require("uuid");
 
 const allDrinksJSON = readFile();
 
+enum Message {
+  NOT_EXIST = "La información solicitada no existe en nuestra base de datos",
+  CREATE_OK = "Cocktail creado exitosamente",
+}
+
 const getAllDrinks = async () => {
   const drinksFromAPI = await apiDataDrinks();
   const drinksFromFile = allDrinksJSON;
@@ -15,17 +20,13 @@ const getAllDrinks = async () => {
 const getDrinkByName = async (name: string) => {
   const drinks = await getAllDrinks();
   const drinkName = drinks.filter((drink) => drink.name.includes(name));
-  return drinkName.length
-    ? drinkName
-    : `El cockteil "${name}" no se encuentra en nuestra base de datos`;
+  return drinkName.length ? drinkName : `${Message.NOT_EXIST}`;
 };
 
 const getDrinkById = async (id: string) => {
   const drinks = await getAllDrinks();
   const drinkId = drinks.find((drink) => drink.id.includes(id));
-  return drinkId
-    ? drinkId
-    : `El ID "${id}" no se encuentra en nuestra base de datos`;
+  return drinkId ? drinkId : `${Message.NOT_EXIST}`;
 };
 
 const getDrinkByIngredient = async (ingredient: string) => {
@@ -37,9 +38,7 @@ const getDrinkByIngredient = async (ingredient: string) => {
       someIngredient.includes(ingredient)
     )
   );
-  return drinkIngredient.length
-    ? drinkIngredient
-    : `No hay tragos que contengan "${ingredient}" en nuestra base de datos`;
+  return drinkIngredient.length ? drinkIngredient : `${Message.NOT_EXIST}`;
 };
 
 const createDrink = (drink: CreateDrink) => {
@@ -51,7 +50,7 @@ const createDrink = (drink: CreateDrink) => {
   drink.id = uuid.v4();
   allDrinksJSON.push(drink);
   createFile(allDrinksJSON);
-  return "Cocktail creado exitosamente.";
+  return `${Message.CREATE_OK}`;
 };
 
 export {
