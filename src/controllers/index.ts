@@ -15,24 +15,31 @@ const getAllDrinks = async () => {
 const getDrinkByName = async (name: string) => {
   const drinks = await getAllDrinks();
   const drinkName = drinks.filter((drink) => drink.name.includes(name));
-  return drinkName;
+  return drinkName.length
+    ? drinkName
+    : `El cockteil "${name}" no se encuentra en nuestra base de datos`;
 };
 
 const getDrinkById = async (id: string) => {
   const drinks = await getAllDrinks();
   const drinkId = drinks.find((drink) => drink.id.includes(id));
-  return drinkId;
+  return drinkId
+    ? drinkId
+    : `El ID "${id}" no se encuentra en nuestra base de datos`;
 };
 
-const getDrinkByIngredient = async (searchIngredient: string) => {
+const getDrinkByIngredient = async (ingredient: string) => {
   const drinks = await getAllDrinks();
+
+  //some devuelve true si al menos un elemento del array cumple con la condición
   const drinkIngredient = drinks.filter((drink) =>
-    //some devuelve true si al menos un elemento del array cumple con la condición
     drink.ingredientsAndMeasures.some((someIngredient: string) =>
-      someIngredient.includes(searchIngredient)
+      someIngredient.includes(ingredient)
     )
   );
-  return drinkIngredient;
+  return drinkIngredient.length
+    ? drinkIngredient
+    : `No hay tragos que contengan "${ingredient}" en nuestra base de datos`;
 };
 
 const createDrink = (drink: CreateDrink) => {

@@ -12,14 +12,19 @@ export const validationsCreateDrink = (data: CreateDrink) => {
   }
   if (
     !Array.isArray(data.ingredientsAndMeasures) ||
-    data.ingredientsAndMeasures.length === 0
+    data.ingredientsAndMeasures.length === 0 ||
+    data.ingredientsAndMeasures.some((item) => typeof item !== "string")
   ) {
-    // debe ser array y debe tener un elemento como minimo
-    return "Tags debe ser un array con al menos un elemento";
+    return "Ingredientes debe ser un array de strings con al menos un elemento";
   }
   if (typeof data.name !== "string") {
-    // si el nombre no es un string
-    return "El NAME debe ser de una cadena de texto";
+    return "El nombre debe ser de una cadena de texto";
+  }
+  if (typeof data.category !== "string") {
+    return "La categoría debe ser de una cadena de texto";
+  }
+  if (typeof data.instructions !== "string") {
+    return "Las instrucciones deben ser de una cadena de texto";
   }
   // Object.keys(data) devuelve un array con todas las propiedades del objeto data
   // some devuelve true o false -> metodo de array verifica si almenos un elemento cumple con la condicion

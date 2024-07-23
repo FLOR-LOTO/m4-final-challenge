@@ -12,7 +12,7 @@ const fetchAllCocktails = async (): Promise<Drink[]> => {
   // Esperar a que todas las promesas se resuelvan
   const results = await Promise.all(requests);
   // Combinar los resultados en un solo array
-  const allCocktails = results.flatMap((result) => result.drinks || []); // Evitar errores con arrays vacíos
+  const allCocktails = results.flatMap((result) => result.drinks || []);
 
   return allCocktails;
 };
@@ -31,7 +31,7 @@ const apiDataDrinks = async () => {
       strCategory: category,
       strInstructions: instructions,
       strDrinkThumb: image,
-      // Extraer ingredientes y medidas dinámicamente
+
       ...rest
     } = drink;
 
